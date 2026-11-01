@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sudhanva Vasista</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Mechanical engineering and applied math student at Texas A&amp;M. Robotics and mechanical design projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a faint graphite wash opens the home page and fades into the page, then project cards, one page per project, and a tab bar. Details sit in engineering-drawing title blocks. */
+:root {
+  --bg: #ffffff;
+  --surface: #f4f4f2;
+  --fg: #17191c;
+  --muted: #5a5f66;
+  --line: #dfe0e1;
+  --line-strong: #b6b9bd;
+  --accent: #a85f00;
+  --sheet: #ffffff;
+  --wash: #efefed;
+  --button: #f2a93b;
+  --on-button: #17191c;
+  --display: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --label: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141619; --surface: #1d2025; --fg: #f0f1f2; --muted: #a3a8ae; --line: #2c3036; --line-strong: #4b5058; --accent: #f2a93b; --wash: #26292e; --button: #f2a93b; --on-button: #141619; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141619; --surface: #1d2025; --fg: #f0f1f2; --muted: #a3a8ae; --line: #2c3036; --line-strong: #4b5058; --accent: #f2a93b; --wash: #26292e; --button: #f2a93b; --on-button: #141619; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 1rem/1.6 var(--body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+a { color: inherit; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap {
+  max-width: 66rem;
+  margin-inline: auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+/* Tab bar */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 0.25rem 2rem; flex-wrap: wrap; }
+.brand { padding-block: 0.8rem; font: 700 1rem/1.2 var(--display); text-decoration: none; white-space: nowrap; }
+.tabs { display: flex; gap: 1.5rem; min-width: 0; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs a { padding-block: 0.8rem; font-size: 0.9375rem; color: var(--muted); text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs a:hover { color: var(--fg); }
+.tabs a[aria-current="page"] { color: var(--fg); font-weight: 500; border-bottom-color: var(--accent); }
+
+.view { display: grid; gap: 3.5rem; }
+.view > * { min-width: 0; }
+
+/* Shared labels and title block */
+.label { margin: 0; font: 500 0.6875rem/1.4 var(--label); letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.block { margin: 0; display: grid; border: 1px solid var(--line-strong); }
+.block > div { padding: 0.65rem 0.85rem; min-width: 0; }
+.block dt { font: 500 0.6875rem/1.4 var(--label); letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.block dd { margin: 0.1rem 0 0; font-size: 0.9375rem; line-height: 1.45; }
+
+/* Home */
+#overview { gap: 0; }
+.band { background: linear-gradient(180deg, var(--wash), var(--bg)); }
+.band .wrap { display: grid; gap: 2.5rem; padding-block: 3.5rem 0; }
+.band .wrap > * { min-width: 0; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: 2rem 3.5rem; align-items: center; }
+.hero > * { min-width: 0; }
+h1 { margin: 0; font: 700 clamp(3.25rem, 7vw, 5.25rem)/1.02 var(--display); letter-spacing: -0.025em; text-wrap: balance; }
+.pitch { margin: 1.25rem 0 0; font: 600 clamp(1.375rem, 2.6vw, 1.75rem)/1.2 var(--display); text-wrap: balance; }
+.pitch-more { margin: 0.75rem 0 0; font-size: 1.0625rem; line-height: 1.55; color: var(--muted); max-width: 34rem; }
+.contact { margin: 1.5rem 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; font: 500 0.8125rem/1.4 var(--label); }
+.contact li { min-width: 0; overflow-wrap: anywhere; }
+.contact a { display: block; padding: 0.5rem 0.75rem; border: 1px solid var(--line-strong); text-decoration: none; transition: background-color 0.15s ease; }
+.contact li + li a:hover { background: var(--surface); }
+.contact li:first-child a { background: var(--button); border-color: var(--button); color: var(--on-button); }
+.hero-photo { display: block; text-decoration: none; }
+.hero-photo figure { gap: 0.5rem; }
+.hero-photo .frame { display: block; overflow: hidden; border: 1px solid var(--line); }
+.hero-photo img { border: 0; transition: transform 0.25s ease; }
+.hero-photo:hover img { transform: scale(1.02); }
+.hero-photo figcaption { font: 400 0.75rem/1.4 var(--label); }
+.facts { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem 2rem; border-top: 1px solid var(--line); padding-top: 1.25rem; }
+.facts > div { min-width: 0; }
+.facts dt { font: 500 0.6875rem/1.4 var(--label); letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0.25rem 0 0; font-size: 0.9375rem; line-height: 1.45; text-wrap: balance; }
+.home-body { display: grid; gap: 3.5rem; padding-block: 3.5rem 4.5rem; }
+.home-body > * { min-width: 0; }
+
+.section-head { display: grid; gap: 1.25rem; }
+h2.section { margin: 0; font: 600 1.375rem/1.2 var(--display); }
+.cards { display: grid; gap: 1.25rem; }
+.cards.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cards.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.card { display: grid; grid-template-rows: auto 1fr; min-width: 0; border: 1px solid var(--line); text-decoration: none; transition: border-color 0.15s ease; }
+.card:hover { border-color: var(--accent); }
+.card:hover h3 { color: var(--accent); }
+.panel { background: var(--sheet); border-bottom: 1px solid var(--line); aspect-ratio: 16 / 10; padding: 1rem; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.panel img { display: block; width: 100%; height: 100%; object-fit: contain; transition: transform 0.25s ease; }
+.card:hover .panel img { transform: scale(1.025); }
+.card-text { padding: 1rem 1.1rem 1.1rem; display: grid; gap: 0.3rem; align-content: start; }
+.card h3 { margin: 0; font: 600 1.1875rem/1.25 var(--display); text-wrap: balance; transition: color 0.15s ease; }
+.card h3::after { content: " \2192"; color: var(--muted); }
+.card:hover h3::after { color: var(--accent); }
+.card p { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--muted); }
+.card p.card-stat { margin-top: 0.6rem; display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }
+.card-stat b { font: 600 2.25rem/1 var(--display); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; color: var(--fg); }
+
+.skills { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem 2rem; border-top: 1px solid var(--line); padding-top: 1.25rem; }
+.skills > div { min-width: 0; }
+.skills dt { font: 500 0.6875rem/1.4 var(--label); letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.skills dd { margin: 0.5rem 0 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.chip { padding: 0.2rem 0.5rem; font-size: 0.875rem; line-height: 1.4; background: var(--surface); border: 1px solid var(--line); }
+
+/* Project pages */
+.project { gap: 2.5rem; padding-block: 3.5rem 4.5rem; }
+.back { margin: 0 0 1.5rem; font-size: 0.9375rem; }
+.back a { color: var(--muted); text-decoration: none; }
+.back a:hover { color: var(--fg); }
+.title { margin: 0; font: 700 clamp(2rem, 5vw, 3rem)/1.08 var(--display); letter-spacing: -0.015em; text-wrap: balance; }
+.title:focus { outline: none; }
+.org { margin: 0.6rem 0 0; color: var(--muted); }
+.lead { margin: 1.25rem 0 0; font-size: 1.1875rem; line-height: 1.5; max-width: 52ch; }
+.block.row { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 1.4fr); }
+.block.row > div + div { border-left: 1px solid var(--line-strong); }
+figure { margin: 0; display: grid; gap: 0.6rem; min-width: 0; }
+figure img { display: block; width: 100%; height: auto; background: var(--sheet); border: 1px solid var(--line); }
+figcaption { font-size: 0.875rem; line-height: 1.45; color: var(--muted); }
+.gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; align-items: start; }
+.gallery img { aspect-ratio: 4 / 3; object-fit: contain; padding: 0.75rem; }
+.gallery.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.gallery.three img { aspect-ratio: 1 / 1; padding: 0; object-fit: cover; }
+.panel.fill { padding: 0; overflow: hidden; }
+.card.wide { grid-template-rows: auto; grid-template-columns: calc(50% - 0.625rem) minmax(0, 1fr); }
+.card.wide .panel { aspect-ratio: 6 / 5; border-bottom: 0; border-right: 1px solid var(--line); }
+.card.wide .card-text { align-content: center; padding: 1.25rem 1.5rem; gap: 0.4rem; }
+.gallery.photos img { aspect-ratio: 3 / 4; object-fit: contain; padding: 0; }
+.gallery.three.contain img { aspect-ratio: 4 / 3; object-fit: contain; padding: 0.5rem; }
+.panel.fill img { object-fit: cover; }
+figure video { display: block; width: 100%; max-width: 100%; height: auto; background: #000000; border: 1px solid var(--line); }
+.print-only { display: none; }
+body[data-view="overview"] .brand { visibility: hidden; }
+.stats { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 1.25rem 2rem; }
+.stats > div { min-width: 0; }
+.stats dd { margin: 0; font: 600 2rem/1.1 var(--display); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.stats dt { margin-top: 0.3rem; font-size: 0.875rem; line-height: 1.4; color: var(--muted); }
+.stats > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; }
+.work-wrap { display: grid; gap: 0.85rem; max-width: 46rem; }
+ul.work { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.6rem; }
+.pager { display: flex; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 1.25rem; }
+.pager a { display: grid; gap: 0.1rem; text-decoration: none; min-width: 0; }
+.pager a:last-child { text-align: right; margin-left: auto; }
+.pager b { font: 600 1.0625rem/1.3 var(--display); }
+.pager a:hover b { color: var(--accent); }
+
+@media (max-width: 52rem) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cards.three { grid-template-columns: minmax(0, 1fr); }
+  .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 44rem) {
+  .band .wrap { gap: 2rem; padding-block: 2.25rem 0; }
+  .home-body, .project { padding-block: 2.25rem 3rem; }
+  .home-body, .view { gap: 2.5rem; }
+  #overview { gap: 0; }
+  .project { gap: 2rem; }
+  .cards.two { grid-template-columns: minmax(0, 1fr); }
+  .card.wide { grid-template-rows: auto 1fr; grid-template-columns: minmax(0, 1fr); }
+  .card.wide .panel { border-right: 0; border-bottom: 1px solid var(--line); }
+  .card.wide .card-text { padding: 1rem 1.1rem 1.1rem; }
+  .bar .wrap { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .brand { padding-block: 0.7rem 0.1rem; }
+  body[data-view="overview"] .brand { display: none; }
+  .tabs { gap: 1.25rem; }
+  .tabs a { padding-block: 0.5rem 0.6rem; }
+  .block.row { grid-template-columns: minmax(0, 1fr); }
+  .block.row > div + div { border-left: 0; border-top: 1px solid var(--line-strong); }
+  .gallery, .gallery.three { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 30rem) {
+  .facts { grid-template-columns: minmax(0, 1fr); gap: 0.85rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card, .card h3, .panel img, .hero-photo img, .contact a { transition: none; }
+  .card:hover .panel img, .hero-photo:hover img { transform: none; }
+}
+@media print {
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+    --bg: #ffffff; --surface: #f4f4f2; --fg: #17191c; --muted: #5a5f66; --line: #dfe0e1; --line-strong: #b6b9bd; --accent: #a85f00; color-scheme: light;
+  }
+  @page { size: letter; margin: 0.55in 0.6in; }
+  body { font-size: 10pt; line-height: 1.4; }
+  body::before, .bar, .back, .pager, .gallery, .stats, .projects-home, .screen-only, [data-site-only] { display: none !important; }
+  .print-only { display: grid; }
+  .wrap { max-width: none; padding: 0; }
+  main { display: block; }
+  .view[hidden] { display: grid !important; }
+  .view, #overview, .home-body { gap: 0.9rem; }
+  .home-body { padding: 0; }
+  .project { gap: 0.55rem; margin-top: 0.9rem; padding-top: 0.8rem; padding-bottom: 0; border-top: 1px solid var(--line); break-inside: avoid; }
+  .band { background: none; }
+  .band .wrap { gap: 0.7rem; padding: 0; }
+  .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem 1rem; padding-top: 0.5rem; }
+  .facts dd { margin-top: 0.1rem; font-size: 9.5pt; line-height: 1.4; }
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  h1 { font-size: 26pt; }
+  .pitch { font-size: 12pt; margin-top: 0.35rem; }
+  .pitch-more { font-size: 10pt; margin-top: 0.2rem; max-width: none; color: var(--fg); }
+  .contact { margin-top: 0.4rem; gap: 0.2rem 1.25rem; font-size: 9pt; }
+  .contact a, .contact li:first-child a { padding: 0; border: 0; background: none; color: var(--accent); }
+  .skills dd { display: block; margin-top: 0.1rem; font-size: 9.5pt; line-height: 1.4; }
+  .chip { display: inline; padding: 0; background: none; border: 0; font-size: inherit; }
+  .chip + .chip::before { content: ", "; }
+  .title { font-size: 17pt; }
+  .org { margin-top: 0.1rem; }
+  .lead { margin-top: 0.3rem; font-size: 10pt; max-width: none; }
+  .block > div { padding: 0.3rem 0.55rem; }
+  .block dd { font-size: 9.5pt; }
+  figure img { max-height: 2.35in; width: auto; margin-inline: auto; border: 0; }
+  #dart figure img { max-height: 1.85in; }
+  #fittings figure img { max-height: 1.7in; }
+  #rover figure img { max-height: 1.25in; }
+  #sail figure img { max-height: 1.6in; }
+  #vex figure img { max-height: 1.2in; }
+  .skills { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1.7fr); gap: 0.5rem 1rem; }
+  .section-head { gap: 0.5rem; }
+  h2.section { font-size: 12pt; }
+  .work-wrap { max-width: none; gap: 0.25rem; }
+  ul.work { gap: 0.2rem; }
+  .skills { padding-top: 0.7rem; }
+}
+</style>
+</head>
+<body>
+<nav class="bar" aria-label="Site">
+  <div class="wrap">
+    <a class="brand" href="#overview">Sudhanva Vasista</a>
+    <div class="tabs">
+      <a href="#overview">Overview</a>
+      <a href="#dart">Dart</a>
+      <a href="#fittings">Fitting Library</a>
+      <a href="#rover">Rover</a>
+      <a href="#sail">Solar Sail</a>
+      <a href="#vex">VEX</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <section class="view" id="overview" data-view>
+    <div class="band">
+      <div class="wrap">
+        <div class="hero">
+          <div>
+            <h1>Sudhanva Vasista</h1>
+            <p class="pitch">Mechanical engineering student focused on robotics.</p>
+            <p class="pitch-more">At Texas A&amp;M, I'm designing the RoboMaster dart for Texas Aimbots. I also captained a VEX robotics team and am building a CAD library for a 2,500-part hydraulic fitting catalog.</p>
+            <ul class="contact">
+              <li><a href="mailto:sudhanva123@tamu.edu">sudhanva123@tamu.edu</a></li>
+              <li><a href="https://www.linkedin.com/in/sudhanvavasista" target="_blank" rel="noopener"><span class="screen-only">LinkedIn</span><span class="print-only">linkedin.com/in/sudhanvavasista</span></a></li>
+            </ul>
+          </div>
+          <a class="hero-photo screen-only" href="#vex">
+            <figure>
+              <span class="frame"><img src="images/vex-carnage.jpg" width="1395" height="785" alt="VEX robot 19697M, named Carnage, on a table beside a Tournament Finalist trophy. A red scythe-shaped piece extends from the robot."></span>
+              <figcaption>Robot 19697M, &ldquo;Carnage,&rdquo; with a Tournament Finalist trophy, 2024-2025</figcaption>
+            </figure>
+          </a>
+        </div>
+        <dl class="facts">
+          <div><dt>Degree</dt><dd>BS, Mechanical Engineering &amp; Applied Mathematics</dd></div>
+          <div><dt>School</dt><dd>Texas A&amp;M University, graduating December 2028</dd></div>
+          <div><dt>GPA</dt><dd>3.80, Engineering Honors (Top 10%)</dd></div>
+          <div><dt>Looking for</dt><dd>Summer 2027 robotics and mechanical design internships and co-ops</dd></div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="wrap home-body">
+    <div class="section-head projects-home">
+      <h2 class="section">Projects</h2>
+      <div class="cards two">
+        <a class="card" href="#dart">
+          <div class="panel"><img src="images/dart-finished.png" width="1113" height="820" alt="CAD model of the RoboMaster dart: a green body tube with four swept fins and a black and blue nose section."></div>
+          <div class="card-text">
+            <span class="label">Texas Aimbots, 2026 to present</span>
+            <h3>RoboMaster Dart</h3>
+            <p>A 4-fin projectile, shaped for low drag within the game's limits.</p>
+          </div>
+        </a>
+        <a class="card" href="#fittings">
+          <div class="panel"><img src="images/om-drawing-2650-08-08-08-08-FG.png" width="2339" height="1654" alt="Engineering drawing of a hydraulic cross fitting with an OM Industrial title block."></div>
+          <div class="card-text">
+            <span class="label">OM Industrial, 2026 to present</span>
+            <h3>Parametric Fitting Library</h3>
+            <p>A SolidWorks CAD library for a 2,535-part hydraulic fitting catalog.</p>
+          </div>
+        </a>
+        <a class="card" href="#sail">
+          <div class="panel fill"><img src="images/sail-open.jpg" width="800" height="642" alt="The prototype solar sail fully opened on a plywood board, showing silver membrane sections and gold fold strips."></div>
+          <div class="card-text">
+            <span class="label">SEDS Texas A&amp;M, 2026</span>
+            <h3>Solar Sail Deployment</h3>
+            <p>Shape memory alloy sail deployment using an origami fold.</p>
+          </div>
+        </a>
+        <a class="card" href="#rover">
+          <div class="panel fill"><img src="images/rover-frame.jpg" width="1200" height="675" alt="CAD model of a rover frame concept: two parallel tubes with motor mounts, joined by a central box."></div>
+          <div class="card-text">
+            <span class="label">Aggies Create, 2026 to present</span>
+            <h3>Triphibian Rover</h3>
+            <p>A disaster recovery rover for land, water and air.</p>
+          </div>
+        </a>
+      </div>
+      <div class="cards">
+        <a class="card wide" href="#vex">
+          <div class="panel fill"><img src="images/vex-card.jpg" width="860" height="724" alt="VEX robot 19697M on a table, seen from the front corner, with its red team plate, a pneumatic cylinder, red gears and omni wheels."></div>
+          <div class="card-text">
+            <span class="label">VEX V5, 2023 to 2025</span>
+            <h3>VEX V5 Robots</h3>
+            <p>Competition robots I designed and built as team captain.</p>
+            <p class="card-stat"><b>32%</b><span>higher mechanism success rate</span></p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <h2 class="section">Skills</h2>
+      <dl class="skills">
+        <div><dt>CAD</dt><dd><span class="chip">SolidWorks</span><span class="chip">Onshape</span></dd></div>
+        <div><dt>Simulation</dt><dd><span class="chip">ANSYS</span><span class="chip">SimFlow</span><span class="chip">OpenRocket</span></dd></div>
+        <div><dt>Programming</dt><dd><span class="chip">Python</span><span class="chip">Java</span><span class="chip">R</span><span class="chip">VBA</span></dd></div>
+        <div><dt>Math coursework</dt><dd><span class="chip">Differential Equations</span><span class="chip">Linear Algebra</span><span class="chip">Dynamical Systems</span><span class="chip">Statistics</span></dd></div>
+      </dl>
+    </div>
+    </div>
+  </section>
+
+  <article class="wrap view project" id="dart" data-view>
+    <div>
+      <p class="back"><a href="#overview">&larr; All projects</a></p>
+      <h2 class="title" tabindex="-1">RoboMaster Dart</h2>
+      <p class="org">Texas Aimbots, Texas A&amp;M</p>
+      <p class="lead">A 4-fin launched projectile for the RoboMaster dart robot, made as aerodynamic as possible within the constraints of the game.</p>
+    </div>
+    <dl class="block row">
+      <div><dt>Role</dt><dd>Mechanical Design Engineer, Dart Subsystem</dd></div>
+      <div><dt>Dates</dt><dd>Sep 2026 to present</dd></div>
+      <div><dt>Tools and methods</dt><dd>Onshape, OpenRocket, SimFlow CFD, Claude Code</dd></div>
+    </dl>
+    <figure>
+      <img src="images/dart-finished.png" width="1113" height="820" alt="CAD model of the dart: a green body tube with four swept fins, a black nose cover and a blue nose section fastened with four screws.">
+      <figcaption>The 4-fin dart design.</figcaption>
+    </figure>
+    <dl class="stats">
+      <div><dt>Current model mass</dt><dd>302 g</dd></div>
+      <div><dt>Mass limit</dt><dd>350 g</dd></div>
+    </dl>
+    <div class="work-wrap">
+      <h3 class="label">What I did</h3>
+      <ul class="work">
+        <li>Prototyping fin sizes and lengths to validate flight stability before 3D printing production parts.</li>
+        <li>Running OpenRocket simulations and comparing fin designs in SimFlow CFD to make the dart as aerodynamic as possible.</li>
+        <li>Keeping the design within the game's constraints, including a 350 g mass limit. The current model weighs 302 g.</li>
+        <li>Packaging a nose camera, four servos, a battery and tungsten ballast in the body.</li>
+      </ul>
+    </div>
+    <div class="gallery">
+      <figure>
+        <img src="images/dart-assembly.png" width="1100" height="630" alt="The dart with its nose cover removed, showing the open nose section and camera mount.">
+        <figcaption>Nose cover removed, showing the inside of the nose section.</figcaption>
+      </figure>
+      <figure>
+        <img src="images/dart-front.png" width="674" height="700" alt="The dart assembly viewed from the front along its body, showing the four fins and the nose opening.">
+        <figcaption>Front view along the body, with the nose cover lifted off.</figcaption>
+      </figure>
+    </div>
+    <nav class="pager" aria-label="Project">
+      <a href="#vex"><span class="label">Previous</span><b>VEX V5 Robots</b></a>
+      <a href="#fittings"><span class="label">Next</span><b>Parametric Fitting Library</b></a>
+    </nav>
+  </article>
+
+  <article class="wrap view project" id="fittings" data-view>
+    <div>
+      <p class="back"><a href="#overview">&larr; All projects</a></p>
+      <h2 class="title" tabindex="-1">Parametric Fitting Library</h2>
+      <p class="org">OM Industrial Products Corp., Houston, TX</p>
+      <p class="lead">A SolidWorks CAD library for a 2,535-part catalog of carbon steel hydraulic fittings and adapters.</p>
+    </div>
+    <dl class="block row">
+      <div><dt>Role</dt><dd>Mechanical Design Engineer</dd></div>
+      <div><dt>Dates</dt><dd>Jun 2026 to present</dd></div>
+      <div><dt>Tools and methods</dt><dd>SolidWorks, design tables, VBA, Python, Claude Code</dd></div>
+    </dl>
+    <figure>
+      <img src="images/om-drawing-2650-08-08-08-08-FG.png" width="2339" height="1654" alt="Engineering drawing of hydraulic cross fitting 2650-08-08-08-08-FG with a section view, thread callouts, an isometric view and the OM Industrial title block.">
+      <figcaption>Drawing generated from the library: cross fitting 2650-08-08-08-08-FG. Shown with OM Industrial's permission.</figcaption>
+    </figure>
+    <dl class="stats">
+      <div><dt>Parts in the catalog</dt><dd>2,535</dd></div>
+      <div><dt>Parts modeled</dt><dd>2,350</dd></div>
+      <div><dt>Master models</dt><dd>210</dd></div>
+      <div><dt>Drawing sheets</dt><dd>2,084</dd></div>
+    </dl>
+    <div class="work-wrap">
+      <h3 class="label">What I did</h3>
+      <ul class="work">
+        <li>Modeled 2,350 of the 2,535 parts from 210 design-table-driven master models.</li>
+        <li>Generating tabulated drawings and spec sheets in batches from one source-of-truth data workbook, using a custom VBA macro in place of per-part redrafting.</li>
+        <li>Checking dimensions, thread standards (JIC, ORFS, NPTF) and tolerances against manufacturer and catalog sources, with a reconciliation pipeline that flags specs that disagree.</li>
+        <li>2,084 drawing sheets generated so far: 815 confirmed, the rest in review.</li>
+      </ul>
+    </div>
+    <div class="gallery">
+      <figure>
+        <img src="images/om-drawing-6803-08-08-10-NWO-FG.png" width="2339" height="1654" alt="Engineering drawing of branch tee fitting 6803-08-08-10-NWO-FG.">
+        <figcaption>Branch tee 6803-08-08-10-NWO-FG.</figcaption>
+      </figure>
+      <figure>
+        <img src="images/om-drawing-1404-04-04.png" width="2339" height="1654" alt="Engineering drawing of swivel adapter 1404-04-04.">
+        <figcaption>Swivel adapter 1404-04-04.</figcaption>
+      </figure>
+    </div>
+    <nav class="pager" aria-label="Project">
+      <a href="#dart"><span class="label">Previous</span><b>RoboMaster Dart</b></a>
+      <a href="#rover"><span class="label">Next</span><b>Triphibian Rover</b></a>
+    </nav>
+  </article>
+
+  <article class="wrap view project" id="rover" data-view>
+    <div>
+      <p class="back"><a href="#overview">&larr; All projects</a></p>
+      <h2 class="title" tabindex="-1">Triphibian Multi-Terrain Rover</h2>
+      <p class="org">Aggies Create, Texas A&amp;M</p>
+      <p class="lead">A rover for disaster recovery that operates on land, on water and in the air.</p>
+    </div>
+    <dl class="block row">
+      <div><dt>Role</dt><dd>Mechanical Design Engineer</dd></div>
+      <div><dt>Dates</dt><dd>Jan 2026 to present</dd></div>
+      <div><dt>Tools and methods</dt><dd>SolidWorks, ANSYS</dd></div>
+    </dl>
+    <figure>
+      <img src="images/rover-frame.jpg" width="1200" height="675" alt="CAD model of a rover frame concept: two parallel tubes with cutouts, internal discs and motor mounts, joined by a central box.">
+      <figcaption>A frame concept the team is considering.</figcaption>
+    </figure>
+    <dl class="stats">
+      <div><dt>Less aerodynamic drag than initial prototypes</dt><dd>20%</dd></div>
+      <div><dt>Operating environments: land, water, air</dt><dd>3</dd></div>
+    </dl>
+    <div class="work-wrap">
+      <h3 class="label">What I did</h3>
+      <ul class="work">
+        <li>Designed a quadcopter-style chassis with custom-cut cavities for electronics and sealed compartments to keep water out.</li>
+        <li>Iterated on a paddled wheel design with ANSYS simulations, reducing aerodynamic drag by 20% over initial prototypes while preserving traction on land and water.</li>
+      </ul>
+    </div>
+    <div class="gallery three contain">
+      <figure>
+        <img src="images/rover-wheel.jpg" width="689" height="575" alt="CAD model of a purple wheel with angled paddles around its face.">
+        <figcaption>Wheel with paddles, for movement on the ground, in water and in the air.</figcaption>
+      </figure>
+      <figure>
+        <img src="images/rover-housing.jpg" width="1200" height="827" alt="CAD assembly of an electronics housing with its lid lifted off, showing compartments labeled FC and ELRS R.">
+        <figcaption>Housing assembly, with compartments for the flight controller and ELRS receiver.</figcaption>
+      </figure>
+      <figure>
+        <img src="images/rover-concept.png" width="845" height="750" alt="Hand-drawn concept of the drone from four views, with propellers in pink and wheels in green.">
+        <figcaption>Drone concept drawing from four views: propellers in pink, wheels in green.</figcaption>
+      </figure>
+    </div>
+    <nav class="pager" aria-label="Project">
+      <a href="#fittings"><span class="label">Previous</span><b>Parametric Fitting Library</b></a>
+      <a href="#sail"><span class="label">Next</span><b>Solar Sail Deployment</b></a>
+    </nav>
+  </article>
+
+  <article class="wrap view project" id="sail" data-view>
+    <div>
+      <p class="back"><a href="#overview">&larr; All projects</a></p>
+      <h2 class="title" tabindex="-1">CubeSat Solar Sail Deployment</h2>
+      <p class="org">SEDS Solar Sail, Texas A&amp;M</p>
+      <p class="lead">A sail deployment system for a 1U CubeSat, actuated by shape memory alloy.</p>
+    </div>
+    <dl class="block row">
+      <div><dt>Role</dt><dd>R&amp;D Engineer and Operations Member</dd></div>
+      <div><dt>Dates</dt><dd>Jan 2026 to Sep 2026</dd></div>
+      <div><dt>Tools and methods</dt><dd>Nitinol SMA actuation, origami flasher folding</dd></div>
+    </dl>
+    <figure class="screen-only">
+      <video controls muted playsinline preload="metadata" width="1280" height="572" poster="images/sail-deployment-poster.jpg" aria-label="Timelapse of the prototype solar sail opening from a folded bundle into a flat octagon, seen from above and from an angle.">
+        <source src="videos/sail-deployment.mp4" type="video/mp4">
+      </video>
+      <figcaption>Timelapse of the SMA deployment prototype, from folded to open. Top view on the left, angled view on the right.</figcaption>
+    </figure>
+    <figure class="print-only">
+      <img src="images/sail-deployment-poster.jpg" width="1280" height="572" alt="The prototype solar sail opened flat, seen from above and from an angle.">
+      <figcaption>SMA deployment prototype, open. Top view on the left, angled view on the right.</figcaption>
+    </figure>
+    <dl class="stats">
+      <div><dt>CubeSat form factor</dt><dd>1U</dd></div>
+      <div><dt>Shape memory alloy actuator</dt><dd>Nitinol</dd></div>
+      <div><dt>Origami fold pattern</dt><dd>Flasher</dd></div>
+    </dl>
+    <div class="work-wrap">
+      <h3 class="label">What I did</h3>
+      <ul class="work">
+        <li>Assisted in designing the deployment system, using Nitinol actuation and an origami flasher pattern to maximize stowage efficiency.</li>
+        <li>Designed spring-loaded hinge release mechanisms and structural housing to minimize mass-to-volume ratio and areal density.</li>
+      </ul>
+    </div>
+    <div class="work-wrap">
+      <h3 class="label">Folding pattern and tests</h3>
+      <ul class="work">
+        <li>The fold is a variation of the origami flasher pattern, inspired by Henning W. Scheel's 1974 patent, "Space-saving Storage of Flexible Sheets."</li>
+        <li>Folding was tested on central hubs of 6, 3 and 1.5 cm.</li>
+      </ul>
+    </div>
+    <div class="gallery three">
+      <figure>
+        <img src="images/sail-fold-hub.jpg" width="385" height="385" alt="Silver membrane pleated radially around a central hub, with a hand holding it.">
+        <figcaption>Membrane pleated around a central hub.</figcaption>
+      </figure>
+      <figure>
+        <img src="images/sail-fold-strings.jpg" width="383" height="383" alt="Silver membrane wrapped around a hub, with white strings running out from it.">
+        <figcaption>Membrane wrapped on a hub, with strings running out to the edge.</figcaption>
+      </figure>
+      <figure>
+        <img src="images/sail-fold-bundle.jpg" width="318" height="318" alt="A tightly wrapped membrane bundle held in one hand, seen from its end.">
+        <figcaption>A wrapped bundle after a folding test.</figcaption>
+      </figure>
+    </div>
+    <div class="gallery three">
+      <figure>
+        <img src="images/sail-prototype-1.jpg" width="363" height="363" alt="Prototype sail Solaris 0.5 lying open on a wooden board, seen at an angle.">
+        <figcaption>Prototype sail, Solaris 0.5.</figcaption>
+      </figure>
+      <figure>
+        <img src="images/sail-prototype-2.jpg" width="363" height="363" alt="Prototype sail Solaris 0.5 seen from directly above, with gold strips along its spiral folds.">
+        <figcaption>Solaris 0.5 from above.</figcaption>
+      </figure>
+      <figure>
+        <img src="images/sail-fold-template.png" width="472" height="472" alt="Fold template for an eight-sided flasher pattern, with mountain and valley fold lines spiraling out from a central hub.">
+        <figcaption>Fold template: 8-sided flasher, 3.0 cm hub radius, 44.9 cm outer radius.</figcaption>
+      </figure>
+    </div>
+    <nav class="pager" aria-label="Project">
+      <a href="#rover"><span class="label">Previous</span><b>Triphibian Rover</b></a>
+      <a href="#vex"><span class="label">Next</span><b>VEX V5 Robots</b></a>
+    </nav>
+  </article>
+
+  <article class="wrap view project" id="vex" data-view>
+    <div>
+      <p class="back"><a href="#overview">&larr; All projects</a></p>
+      <h2 class="title" tabindex="-1">VEX V5 Competition Robots</h2>
+      <p class="org">VEX V5 Robotics, Fulshear, TX</p>
+      <p class="lead">Competition robots that reached VEX Worlds qualification and the UIL State Semifinals.</p>
+    </div>
+    <dl class="block row">
+      <div><dt>Role</dt><dd>Team Captain, Lead Design Engineer</dd></div>
+      <div><dt>Dates</dt><dd>Jul 2023 to Feb 2025</dd></div>
+      <div><dt>Tools and methods</dt><dd>Onshape, VEX V5 libraries</dd></div>
+    </dl>
+    <figure>
+      <img src="images/vex-carnage.jpg" width="1395" height="785" alt="VEX robot 19697M, named Carnage, on a table beside a Tournament Finalist trophy from the 2024-2025 season. A red scythe-shaped piece extends from the robot.">
+      <figcaption>Robot 19697M, &ldquo;Carnage,&rdquo; with a Tournament Finalist trophy from the 2024-2025 season.</figcaption>
+    </figure>
+    <dl class="stats">
+      <div><dt>Higher mechanism success rate</dt><dd>32%</dd></div>
+      <div><dt>VEX qualification</dt><dd>Worlds</dd></div>
+      <div><dt>UIL State placement</dt><dd>Semifinals</dd></div>
+      <div><dt>Tournament placement, 2024-2025</dt><dd>Finalist</dd></div>
+    </dl>
+    <div class="work-wrap">
+      <h3 class="label">What I did</h3>
+      <ul class="work">
+        <li>Designed and assembled robot subsystems in Onshape, applying stress tolerance, motor load management and motion transmission principles.</li>
+        <li>Optimized gear ratios for torque, increasing mechanism success rates by 32%.</li>
+      </ul>
+    </div>
+    <div class="gallery photos">
+      <figure>
+        <img src="images/vex-build.jpg" width="1200" height="1600" alt="Two people assembling a VEX robot's red arm and drivetrain on a carpeted floor, with parts spread around them.">
+        <figcaption>Assembling a robot's arm and drivetrain.</figcaption>
+      </figure>
+      <figure>
+        <img src="images/vex-drivetrain.jpg" width="1200" height="1600" alt="Looking down into a VEX robot at its red gears, omni wheels and a sprocket, with a screwdriver in the frame and two spots circled in blue by hand.">
+        <figcaption>Gears and omni wheels in the drivetrain.</figcaption>
+      </figure>
+    </div>
+    <nav class="pager" aria-label="Project">
+      <a href="#sail"><span class="label">Previous</span><b>Solar Sail Deployment</b></a>
+      <a href="#dart"><span class="label">Next</span><b>RoboMaster Dart</b></a>
+    </nav>
+  </article>
+</main>
+
+<script>
+(function () {
+  var views = Array.prototype.slice.call(document.querySelectorAll("[data-view]"));
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".tabs a"));
+
+  function show(name, moveFocus) {
+    var target = views.filter(function (v) { return v.id === name; })[0] || views[0];
+    views.forEach(function (v) { v.hidden = v !== target; });
+    document.body.setAttribute("data-view", target.id);
+    Array.prototype.forEach.call(document.querySelectorAll("video"), function (video) {
+      if (!target.contains(video)) video.pause();
+    });
+    tabs.forEach(function (t) {
+      if (t.getAttribute("href") === "#" + target.id) {
+        t.setAttribute("aria-current", "page");
+        if (t.scrollIntoView && moveFocus) t.scrollIntoView({ block: "nearest", inline: "center" });
+      } else {
+        t.removeAttribute("aria-current");
+      }
+    });
+    window.scrollTo(0, 0);
+    if (moveFocus) {
+      var heading = target.querySelector(".title");
+      if (heading) heading.focus({ preventScroll: true });
+    }
+  }
+
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest && event.target.closest('a[href^="#"]');
+    if (!link) return;
+    event.preventDefault();
+    var name = link.getAttribute("href").slice(1);
+    show(name, true);
+    try { history.pushState(null, "", "#" + name); } catch (e) {}
+  });
+
+  window.addEventListener("hashchange", function () { show(location.hash.slice(1), false); });
+  window.addEventListener("popstate", function () { show(location.hash.slice(1), false); });
+  show(location.hash.slice(1), false);
+  window.addEventListener("load", function () { window.scrollTo(0, 0); });
+})();
+</script>
+</body>
+</html>
